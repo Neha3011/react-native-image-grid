@@ -9,6 +9,7 @@ import { Image,
   Keyboard,
   StyleSheet,
   Text } from 'react-native';
+import { normalizeImageUrl } from './utils/normalizer';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,18 +25,6 @@ export default class App extends Component {
     };
   }
 
-  normalizeImageUrl = (images) => {
-    const normalizedContact = [];
-    images.hits.map((image) => {
-      normalizedContact.push({
-        'id': image.id,
-        'imageUrl': image.previewURL
-      });
-    });
-
-    return normalizedContact;
-  };
-
   getImages = async () => {
     Keyboard.dismiss();
     const pageNumber = this.state.page;
@@ -48,14 +37,14 @@ export default class App extends Component {
         method: 'GET'
       });
       let images = await response.json();
-      images = this.normalizeImageUrl(images);
+      images = normalizeImageUrl(images);
       this.onEndReachedCalledDuringMomentum = false;
       this.setState({
         'loading': false,
         'isNewImageLoading': false,
         'images': this.state.images.concat(images),
         'noResult': images.length
-      })
+      });
     }
     catch (e) {
       console.log(e)
