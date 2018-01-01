@@ -9,6 +9,9 @@ Image grid app which uses
 - Install dependencies: `yarn install`
 - Run: `yarn start` follow the steps given in terminal to run the app in expo
 
+# Run test
+- npm run test
+
 # Implementation overview
 
 - `App` component: 

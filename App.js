@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Image, TextInput, View, FlatList, Button, ActivityIndicator, Dimensions, Keyboard, StyleSheet } from 'react-native';
+import { Image,
+  TextInput,
+  View,
+  FlatList,
+  Button,
+  ActivityIndicator,
+  Dimensions,
+  Keyboard,
+  StyleSheet,
+  Text } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -44,7 +53,8 @@ export default class App extends Component {
       this.setState({
         'loading': false,
         'isNewImageLoading': false,
-        'images': this.state.images.concat(images)
+        'images': this.state.images.concat(images),
+        'noResult': images.length
       })
     }
     catch (e) {
@@ -96,16 +106,19 @@ export default class App extends Component {
       <View style={styles.container}>
         <View style={styles.inputRow}>
           <TextInput
+            autoFocus={true}
             style={styles.searchInput}
             placeholder="Type keywords (eg: flower)"
             onChangeText={this.onSearchKeywordChange}
             underlineColorAndroid="transparent"
+            onSubmitEditing={this.getImages}
           />
           <Button
             onPress={this.getImages}
             title="Search"
             color="#5BCF51"
             accessibilityLabel="Search"
+            disabled={this.state.searchedKeyword === ''}
           />
         </View>
 
@@ -126,6 +139,22 @@ export default class App extends Component {
                 onEndReached={this.onEndReached}
                 ListFooterComponent={this.renderFooter}
               />
+            );
+          } else if (this.state.searchedKeyword === '') {
+            return (
+              <View style={styles.noResultContainer}>
+                <Text style={styles.noResult}>
+                  Search to view images
+                </Text>
+              </View>
+            );
+          } else if (this.state.images && this.state.images.length === 0) {
+            return (
+                <View style={styles.noResultContainer}>
+                  <Text style={styles.noResult}>
+                    No result found
+                  </Text>
+                </View>
             );
           }
         })()}
@@ -176,5 +205,14 @@ const styles = StyleSheet.create({
   loader: {
     flex: 1,
     justifyContent: 'center'
+  },
+  noResultContainer: {
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  noResult: {
+    color: '#9b9b9b'
   }
 });
