@@ -9,6 +9,10 @@ Image grid app which uses
 - Install dependencies: `yarn install`
 - Run: `yarn start` follow the steps given in terminal to run the app in expo
 
+# Download App
+- Download expo app in your phone
+- Search for https://exp.host/@nehasingh/imagesgrid
+
 # Run test
 - npm run test
 
